@@ -1,17 +1,19 @@
 # Menu Demo Platform
 
-A multi-brand restaurant and cafe menu showcase built with Next.js App Router,
+Independent restaurant and cafe menu demos built with Next.js App Router,
 React, TypeScript, Tailwind CSS, GSAP, and `@gsap/react`.
 
-## Scope
+## Routes and scope
 
-Phases 1 and 2 cover starter cleanup and architecture only. All routes render
-minimal identifiers. Brand design, menu data, carousel logic, animation, and
-interactive components await architecture approval.
+- `/`: minimal project identifier.
+- `/baklava`: Gholivand's Persian, RTL animated menu (Phase 3).
+- `/pizza/cavasaitaly`: unchanged placeholder for a future independent demo.
 
-## Development
+No ordering, backend, authentication, cart, or payment functionality is included.
 
-Use pnpm (version declared in `package.json`).
+## Development and checks
+
+Use the existing pnpm version declared in `package.json`.
 
 ```sh
 pnpm install
@@ -19,6 +21,7 @@ pnpm dev
 pnpm lint
 pnpm exec next typegen
 pnpm exec tsc --noEmit
+node --experimental-strip-types --test tests/carousel.math.test.mjs
 pnpm build
 pnpm start
 ```
@@ -30,101 +33,134 @@ changing Next.js code, as required by `AGENTS.md`.
 
 ```text
 app/
-  layout.tsx                   # Neutral root document and metadata
-  page.tsx                     # Project identifier (/)
-  globals.css                  # Tailwind import and minimal shared baseline
+  layout.tsx, page.tsx, globals.css
   baklava/
-    layout.tsx                 # Independent metadata, Persian language and RTL
-    page.tsx                   # Gholivand placeholder (/baklava)
+    layout.tsx, page.tsx
   pizza/cavasaitaly/
-    layout.tsx                 # Independent metadata and layout boundary
-    page.tsx                   # Pizza placeholder (/pizza/cavasaitaly)
+    layout.tsx, page.tsx
 components/
   shared/
     ui/
     carousel/
+      CircularCarousel.tsx
+      CarouselItem.tsx
   baklava/
+    BaklavaHeader.tsx
+    BaklavaMenu.tsx
+    BaklavaCategories.tsx
+    BaklavaCarousel.tsx
+    BaklavaProductDetails.tsx
+    BaklavaMenu.module.css
   pizza/cavasaitaly/
 hooks/
+  useCircularCarousel.ts
 lib/carousel/
+  carousel.math.ts
+  carousel.config.ts
 data/
   baklava/
+    products.ts, additional-products.ts, categories.ts
   pizza/cavasaitaly/
 types/
+  product.ts, carousel.ts
+tests/
+  carousel.math.test.mjs
 public/
   brands/
     baklava/
-      logo/
-      products/                # Four original uploaded PNGs
+      logo/logo-inline.svg
+      products/                # Original PNGs and uploaded product photos
     pizza/cavasaitaly/
-      logo/
-      products/
+      logo/, products/
   shared/
 ```
 
-Empty directories contain `.gitkeep` so Git retains the intended structure.
-No speculative component files, data, hooks, or types have been added.
-Existing configuration files remain at the project root.
+Reserved empty directories use `.gitkeep`. The existing `@/*` alias resolves
+from the project root; there is no duplicated `src` tree.
 
-## Architecture boundaries
+## Architecture and animation
 
-- Keep route pages and layouts as Server Components by default. Introduce client
-  boundaries only for interactions and animation when those are implemented.
-- Each brand owns its layout, components, data, assets, and future styles. Keep
-  brand styles in CSS Modules beside the relevant route or component; reserve
-  global CSS for genuinely shared resets. Do not put brand colors or fonts in
-  the root layout. The neutral root wraps all routes without a shared brand shell.
-- Keep reusable UI and carousel rendering in `components/shared`. Shared code
-  must not import brand components or data. Brand components may compose shared
-  code and provide brand-specific content through props.
-- Reserve `hooks` for reusable interactive behavior and `lib/carousel` for pure
-  circular/elliptical positioning math and configurable animation parameters.
-  Implement these only in the approved animation phase.
-- Keep future product/category records under `data/<brand>` and their shared
-  TypeScript contracts under `types`. Define interfaces when the corresponding
-  data or carousel behavior is implemented; do not invent product records now.
-- Preserve the existing `@/*` root import alias and configuration. There is no
-  `src` directory in this project.
+The root document and brand route shells remain Server Components. The static
+brand header is rendered by the server. Client components are limited to menu
+filtering, product details within the interactive subtree, and carousel behavior.
+Brand styling is isolated in a CSS Module; global CSS remains neutral.
 
-## Asset inventory
+Shared carousel rendering accepts typed entries, translated labels, class names,
+and a details renderer. It imports no brand data or styles. Brand adapters own
+category filtering, Persian content, price formatting, and visual identity.
 
-These uploaded files were moved unchanged from `public/` to
-`public/brands/baklava/products/`:
+`useCircularCarousel` uses `useGSAP` to animate a single continuous progress
+number. Every GSAP update evaluates each product's wrapped angular offset and
+computes `sin(angle) * radiusX` and `(1 - cos(angle)) * radiusY`, plus scale,
+subtle rotation, opacity, and stacking order. React updates only when the nearest
+active index changes. Hidden seams permit circular wrapping without a visible
+plate jumping across the viewport. Rapid navigation replaces the running tween
+while retaining its current progress and accumulated target.
 
-- `Chocolate dessert on white plate.png`
+A ResizeObserver adapts radii to the stage width. CSS sets mobile-first plate
+sizes; transparent image padding is kept outside the button's hit area so it
+cannot intercept clicks on an adjacent plate. The original image orientation,
+proportions, transparency, and asset files are preserved. Only the active image
+and its two neighbors on each side mount through Next Image, with responsive sizes and high priority on the
+initial product.
+
+Previous/next buttons, pagination, adjacent selection, RTL arrow keys, Home/End,
+and horizontal Pointer Event swipe/drag gestures share the same engine.
+`touch-action: pan-y pinch-zoom` preserves vertical scrolling and pinch zoom.
+Reduced-motion preference changes finish the transition immediately. Tweens,
+ResizeObserver, and preference listeners are cleaned up when the carousel unmounts.
+Brand filters remount the collection with a consistent first active product.
+
+The existing Tailwind Turbopack rule now excludes `*.module.css`: forcing those
+files through `as: '*.css'` stripped module class-name exports in this installed
+Next version. Global Tailwind processing is retained and CSS Modules use native
+Next.js scoping. No new dependencies were needed in Phase 3.
+
+## Assets and data provenance
+
+The original logo at `/brands/baklava/logo/logo-inline.svg` and all four uploaded
+PNGs are used directly. The PNG filenames remain:
+
+- `Pistachio-Garnished Golden Pastry on White Plate.png`
 - `Pistachio pastry on a white plate.png`
 - `Pistachio pastry on a white plate (1).png`
-- `Pistachio-Garnished Golden Pastry on White Plate.png`
+- `Chocolate dessert on white plate.png`
 
-Their public URL prefix is now `/brands/baklava/products/` (URL-encode spaces
-when constructing URLs). No existing application code referenced these images.
-SHA-256 hashes matched before and after every move. Original filenames, quality,
-and transparency are preserved. No uploaded logo or font was present during
-inspection; their directories are reserved.
+The public product URL prefix is `/brands/baklava/products/`. `encodeURI`
+encodes spaces while preserving parentheses. Original assets remain unchanged
+on disk. Eight completed photos additionally have transparent PNG edits in
+`products/cutouts/`, now used by the carousel. See `docs/hot-drink-cutouts.md`
+for their source mapping and ImageGen prompt set.
+These cover four hot drinks, two cold drinks, and two tea servings. The other
+22 unique JPEG photos still use their original backgrounds until edits are ready.
 
-## Reset inventory
+The supplied menu reference shows the rolled milk/honey pastry at 48,000 toman
+and the heart pastry at 52,000 toman. Those are reference prices, not verified
+current prices. The remaining original PNGs and all additional photos have descriptive temporary display
+labels explicitly marked in the UI, with no invented prices or descriptions.
+No additional categories without corresponding products are shown.
+The catalog contains 34 products: 15 baklava, 6 desserts, 4 hot drinks, 2 cold
+drinks, and 7 teas/infusions. Thirty unique JPEGs from the later upload are
+listed in `data/baklava/additional-products.ts`, preserving their original
+filenames and aspect ratios. The byte-identical duplicate
+`imgi_154_DSC00029-copy-scaled (1).jpg` remains on disk but does not create a
+duplicate menu entry. JPEG photos use contained presentation; PNG cutouts retain
+their existing presentation. Categories scroll horizontally on narrow screens
+and pagination shows at most five neighboring indicators for large collections.
+The project uses the local variable Vazirmatn font from `public/fonts/` through `next/font/local`, with weights 100–900 and swap display. The bundled OFL license is preserved.
 
-Removed starter assets: `app/favicon.ico`, `public/file.svg`, `public/globe.svg`,
-`public/next.svg`, `public/vercel.svg`, and `public/window.svg`.
+## Phase 3 validation
 
-Replaced starter content in `app/page.tsx`, `app/layout.tsx`, `app/globals.css`,
-and this README. Removed the starter Google font imports and default theme.
-Added the two brand route pairs and reserved directories above.
-Added only `@gsap/react`; existing dependency versions and configuration were
-retained. Git history and environment files were left untouched.
+- ESLint and strict TypeScript validation.
+- Production build.
+- Mathematical tests for negative/repeated turns, the continuous elliptical path,
+  scale/rotation bounds, and invisible seams for small and 34-item collections.
+- Browser review at 320, 375, 390, 430, 768, and 1440px, including image loading,
+  horizontal overflow checks, navigation, rapid repeated navigation, circular
+  wrapping, category filtering, keyboard navigation, and swipe-style mouse dragging.
+- Physical touchscreen testing and device-level reduced-motion testing remain
+  recommended; these behaviors are implemented but were not tested on real mobile
+  hardware in this environment.
 
-## Validation
-
-- `pnpm lint`: passed.
-- `pnpm exec next typegen` and `pnpm exec tsc --noEmit`: passed.
-- `pnpm build`: passed; all three initialized routes are statically prerendered.
-- Production server checks: `/`, `/baklava`, and `/pizza/cavasaitaly` returned
-  HTTP 200 with their expected identifiers; the Persian layout had `lang="fa"`
-  and `dir="rtl"`.
-- All four new PNG URLs returned HTTP 200 with the original file lengths.
-  Encode spaces in asset URLs while preserving parentheses (as `encodeURI`
-  does); over-encoding parentheses produced a 404 with this installed server.
-- Configuration files and existing dependency versions remain unchanged.
-
-No menu UI, invented menu data, carousel, animation engine, or pizza UI is
-implemented. Architecture approval is required before Phase 3.
+The root and pizza route implementations remain unchanged. Stop at Gholivand;
+other restaurant demos are outside this phase.

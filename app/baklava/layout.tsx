@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "قلی‌وند | Gholivand Demo",
-  description: "Reserved for the Gholivand baklava cafe menu demo.",
+  title: "منوی قلی‌وند | کافه باقلوا",
+  description: "منوی تعاملی باقلوا و دسرهای کافه قلی‌وند؛ طعم‌ها اینجا آشنا نیستند.",
 };
 
 export default function BaklavaLayout({ children }: { children: ReactNode }) {
