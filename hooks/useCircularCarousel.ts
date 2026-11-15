@@ -127,14 +127,15 @@ export function useCircularCarousel({ count, direction = "ltr", config }: Option
     if (!start || start.id !== event.pointerId) return;
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
-    if (!start.horizontal && Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
-      drag.current = null;
-      return;
+    // Keep tracking through initial vertical drift and suppress clicks after a drag.
+    if (Math.max(Math.abs(dx), Math.abs(dy)) > 10) {
+      suppressClick.current = true;
+      if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.setPointerCapture(event.pointerId);
+      }
     }
     if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
       start.horizontal = true;
-      suppressClick.current = true;
-      event.currentTarget.setPointerCapture(event.pointerId);
     }
   };
   const finishDrag = (event: PointerEvent<HTMLDivElement>, cancelled = false) => {

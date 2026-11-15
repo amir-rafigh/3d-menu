@@ -47,7 +47,8 @@
   max-width: 1180px;
   margin: 0 auto;
   isolation: isolate;
-  touch-action: pan-y pinch-zoom;
+  /* Keep one-finger gestures on the carousel while preserving pinch zoom. */
+  touch-action: pinch-zoom;
   user-select: none;
   cursor: grab;
 }

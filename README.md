@@ -106,7 +106,10 @@ initial product.
 
 Previous/next buttons, pagination, adjacent selection, RTL arrow keys, Home/End,
 and horizontal Pointer Event swipe/drag gestures share the same engine.
-`touch-action: pan-y pinch-zoom` preserves vertical scrolling and pinch zoom.
+The image stage uses `touch-action: pinch-zoom` to keep one-finger gestures from
+scrolling the page while preserving pinch zoom. Vertical scrolling remains
+available outside the stage. Swipes tolerate initial vertical drift and require
+at least 32px of horizontal travel; drags suppress accidental product clicks.
 Reduced-motion preference changes finish the transition immediately. Tweens,
 ResizeObserver, and preference listeners are cleaned up when the carousel unmounts.
 Brand filters remount the collection with a consistent first active product.
