@@ -7,7 +7,8 @@ React, TypeScript, Tailwind CSS, GSAP, and `@gsap/react`.
 
 - `/`: minimal project identifier.
 - `/baklava`: Gholivand's Persian, RTL animated menu (Phase 3).
-- `/pizza/cavasaitaly`: unchanged placeholder for a future independent demo.
+- `/casaitaly`: Casa Italy's Persian, RTL pizza menu demo with seven transparent
+  product cutouts, category filters, and the shared animated curved carousel.
 
 No ordering, backend, authentication, cart, or payment functionality is included.
 
@@ -36,7 +37,7 @@ app/
   layout.tsx, page.tsx, globals.css
   baklava/
     layout.tsx, page.tsx
-  pizza/cavasaitaly/
+  casaitaly/
     layout.tsx, page.tsx
 components/
   shared/
