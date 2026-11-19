@@ -9,8 +9,15 @@ React, TypeScript, Tailwind CSS, GSAP, and `@gsap/react`.
 - `/baklava`: Gholivand's Persian, RTL animated menu (Phase 3).
 - `/casaitaly`: Casa Italy's Persian, RTL pizza menu demo with seven transparent
   product cutouts, category filters, and the shared animated curved carousel.
+- `/ghobadi`: Persian dental practice dashboard, appointments, patient history,
+  demo accounting, reminders, reports, and settings backed by PostgreSQL.
+- `/ghobadi/reserve`: patient-facing booking, tracking, cancellation, and rescheduling.
 
-No ordering, backend, authentication, cart, or payment functionality is included.
+The restaurant demos have no ordering, backend, authentication, cart, or payment functionality.
+For the dental demo, start `docker compose -f compose.ghobadi.yml up -d --wait`
+before `pnpm dev`. See [the dental demo guide](docs/ghobadi-demo.md) for setup,
+booking rules, checks, research sources, and production limitations. The dental
+demo has no real authentication, SMS delivery, or payment gateway; use synthetic data only.
 
 ## Development and checks
 

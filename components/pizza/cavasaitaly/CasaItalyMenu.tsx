@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { CircularCarousel } from "@/components/shared/carousel/CircularCarousel";
 import { casaCategories, type CasaProduct } from "@/data/pizza/cavasaitaly/products";
@@ -20,10 +21,10 @@ export function CasaItalyMenu({ products }: { products: readonly CasaProduct[] }
   return <div className={styles.page}>
     <div className={styles.topline} aria-hidden="true"><i /><i /><i /></div>
     <header className={styles.header}>
-      <a href="#menu" className={styles.brand} aria-label="کازا ایتالی، منوی رستوران">
+      <Link href="/casaitaly/landing" className={styles.brand} aria-label="بازگشت به صفحهٔ اصلی کازا ایتالی" title="بازگشت به صفحهٔ اصلی">
         <span className={styles.logoWindow}><Image src="/brands/pizza/cavasaitaly/logo/instagram-profile.png" width={887} height={474} alt="CASA ITALY" className={styles.logo} preload /></span>
         <span className={styles.brandCaption}>خانهٔ طعم‌های ایتالیایی<span lang="en" dir="ltr">NAPOLITAN PIZZA & PASTA</span></span>
-      </a>
+      </Link>
       <nav className={styles.nav} aria-label="ناوبری اصلی">
         <a href="#menu" aria-current="page">منوی کازا<span /></a>
         <button onClick={() => aboutRef.current?.showModal()}>داستان کازا</button>
