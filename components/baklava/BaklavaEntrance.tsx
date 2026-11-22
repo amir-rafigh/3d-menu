@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
 import styles from "./BaklavaEntrance.module.css";
 
-const DISPLAY_DURATION = 700;
+const DISPLAY_DURATION = 1100;
 const FADE_DURATION = 180;
 
 export function BaklavaEntrance({ children }: { children: ReactNode }) {
