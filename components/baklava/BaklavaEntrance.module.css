@@ -1,0 +1,72 @@
+:global(body):has(.overlay) { overflow: hidden; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: max(44px, 13svh) 24px max(24px, env(safe-area-inset-bottom));
+  background: rgb(0 0 0 / 96%);
+  color: #fff;
+  font-family: var(--font-vazirmatn), sans-serif;
+  transition: opacity 180ms ease-out;
+}
+
+.overlay[data-leaving="true"] { opacity: 0; }
+
+.brand { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.mark { display: block; width: 94px; height: 104px; }
+.wordmark { position: relative; width: 180px; height: 105px; }
+.wordmark img { display: block; width: 100%; height: 100%; opacity: .72; }
+.wordmark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 25%, #fff 48%, transparent 70%);
+  background-size: 250% 100%;
+  mask: url("/brands/baklava/logo/logo-wordmark.svg") center / contain no-repeat;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.status { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.status p { margin: 0; font-size: 16px; line-height: 1.8; }
+.spinner {
+  display: block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ffffff30;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .85s linear infinite;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes shimmer { from { background-position: 150% 0; } to { background-position: -100% 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-height: 420px) {
+  .overlay { flex-direction: row; justify-content: space-evenly; padding-block: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay { transition: none; }
+  .spinner, .wordmark::after { animation: none; }
+  .wordmark::after { display: none; }
+  .wordmark img { opacity: 1; }
+}
