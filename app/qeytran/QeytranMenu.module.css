@@ -16,6 +16,11 @@
 .arrow{color:#fff7ed;border-color:#ffe5ce60;background:#79323938;backdrop-filter:blur(8px)}.arrow:hover{background:#fff0df;color:#793a40}.footer{border-color:#ffe5ce30;color:#f4d5c1}.autoplay{color:#fff3e8}.autoplay>span{border-color:#ffe5ce60}
 
 /* A single viewport: the dish floats over the stationary information card. */
+.headerActions{display:flex;align-items:center;gap:22px}
+.homeLink{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid #ffe5ce60;border-radius:30px;color:#fff3e8;text-decoration:none;font-size:11px;white-space:nowrap;transition:background .2s}
+.homeLink:hover{background:#fff0df20}
+@media(max-width:700px){.headerActions{gap:10px}.homeLink{gap:5px;padding:7px 9px;font-size:9px}.homeLink svg{width:13px;height:13px}.headerActions .phone{gap:4px}.headerActions .phone b{font-size:9px}.headerActions .phone>span:last-child{display:none}}
+@media(max-width:360px){.headerActions{gap:8px}.homeLink{font-size:8px;padding:6px 8px}.headerActions .phone b{font-size:8px}}
 @media(max-width:700px){
   .page{height:100svh;min-height:600px;box-sizing:border-box;display:flex;flex-direction:column;padding:0 18px;overflow:hidden}
   .header{min-height:60px;flex-shrink:0;width:100%;box-sizing:border-box}

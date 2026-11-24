@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./QeytranMenu.module.css";
 
@@ -58,9 +59,12 @@ export default function QeytranMenu() {
     <main className={styles.page} dir="rtl" lang="fa">
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.header}>
-        <a className={styles.wordmark} href="/qeytran/landing" aria-label="صفحهٔ اصلی رستوران قیطران"><span className={styles.mark}>ق</span><span>قیطران<small lang="en">QE Y TRAN</small></span></a>
+        <Link className={styles.wordmark} href="/qeytran/landing" aria-label="صفحهٔ اصلی رستوران قیطران"><span className={styles.mark}>ق</span><span>قیطران<small lang="en">QE Y TRAN</small></span></Link>
         <span className={styles.headerNote}>ریشه در اصالت، طعمی برای امروز</span>
-        <a className={styles.phone} href="tel:021144784"><span>تماس با رستوران</span><b dir="ltr">021 144784</b><span aria-hidden="true">↗</span></a>
+        <div className={styles.headerActions}>
+          <Link className={styles.homeLink} href="/qeytran/landing"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" /></svg>صفحهٔ رستوران</Link>
+          <a className={styles.phone} href="tel:021144784"><span>تماس با رستوران</span><b dir="ltr">021 144784</b><span aria-hidden="true">↗</span></a>
+        </div>
       </header>
 
       <div className={styles.intro}><span className={styles.eyebrow}><i /> از آتش تا سفرهٔ شما</span><h1>طعم اصیل، <em>روایت تازه.</em></h1><p>عطر برنج ایرانی، گرمای زغال و یک انتخاب خوشمزه.</p></div>
