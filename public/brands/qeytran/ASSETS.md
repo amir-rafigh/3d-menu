@@ -7,3 +7,5 @@ Prompt for each: isolate only the entire main plate and its food; preserve ingre
 Input images 1–5 map to joojeh, soltani, royal, barg and bakhtiari respectively.
 
 Optimized with FFmpeg libwebp, quality 85, compression level 6, maximum 900 × 900, preserving alpha. The original files remain untouched. Menu information is demonstration data.
+
+The landing page's `landing-hero.webp` is an optimized WebP copy of supplied photograph 1, including its original restaurant background, resized to 1400 pixels wide at quality 85. It is used in the restaurant story section.

@@ -58,7 +58,7 @@ export default function QeytranMenu() {
     <main className={styles.page} dir="rtl" lang="fa">
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.header}>
-        <a className={styles.wordmark} href="/qeytran" aria-label="رستوران قیطران"><span className={styles.mark}>ق</span><span>قیطران<small lang="en">QE Y TRAN</small></span></a>
+        <a className={styles.wordmark} href="/qeytran/landing" aria-label="صفحهٔ اصلی رستوران قیطران"><span className={styles.mark}>ق</span><span>قیطران<small lang="en">QE Y TRAN</small></span></a>
         <span className={styles.headerNote}>ریشه در اصالت، طعمی برای امروز</span>
         <a className={styles.phone} href="tel:021144784"><span>تماس با رستوران</span><b dir="ltr">021 144784</b><span aria-hidden="true">↗</span></a>
       </header>
